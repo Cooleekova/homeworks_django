@@ -18,7 +18,41 @@
         <h1 class="col s12">Инфляция в России</h1>
         <div class="col s12 m8">
         
-        <!-- Ваша логика -->
+        <table class="u-full-width">
+      <thead>
+        <tr>
+          {% for word in header %}
+          <th>{{word}}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+      {% for year in data %}
+
+          <td>{{ year.Год }}</td>
+          <td>{{ year.Янв }}</td>
+          <td>{{ year.Фев }}</td>
+          <td>{{ year.Мар }}</td>
+          <td>{{ year.Апр }}</td>
+          <td>{{ year.Май }}</td>
+          <td>{{ year.Июн }}</td>
+          <td>{{ year.Июл }}</td>
+          <td>{{ year.Авг }}</td>
+          <td>{{ year.Сен }}</td>
+          <td>{{ year.Окт }}</td>
+          <td>{{ year.Ноя }}</td>
+          <td>{{ year.Дек }}</td>
+          <td><p style="background-color:gray">{{ year.Всего }}</p></td>
+          {% for item in year. %}
+            {% if item > 1 %}
+                <td><p> style="background-color:red</p></td>
+         {% endif %}
+        {% endfor %}
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
 
         </div>
       </div>
