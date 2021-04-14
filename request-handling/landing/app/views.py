@@ -12,6 +12,7 @@ counter_click = Counter()
 
 # Реализуйте логику подсчета количества переходов с лендинга по GET параметру from-landing
 def index(request):
+    global counter_click
     from_landing = request.GET.get('from-landing')
     if from_landing:
         if from_landing == 'original':
@@ -25,6 +26,7 @@ def index(request):
 
 # ab_test_arg как GET параметр
 def landing(request):
+    global counter_show
     ab_test_arg = request.GET.get('ab-test-arg')
     if ab_test_arg == 'original':
         counter_show['original'] += 1
@@ -40,6 +42,7 @@ def landing(request):
 
 
 def stats(request):
+    global counter_click, counter_show
     try:
         original_conversion = counter_click['original'] / counter_show['original']
         test_conversion = counter_click['test'] / counter_show['test']

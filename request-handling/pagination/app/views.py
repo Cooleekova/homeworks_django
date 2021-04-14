@@ -10,23 +10,15 @@ def index(request):
     return redirect(reverse(bus_stations))
 
 
-stations_list = list()
-
-
 def get_stations_list():
     with open(settings.BUS_STATION_CSV, newline='', encoding='cp1251') as file:
         reader = csv.DictReader(file)
-        for row in reader:
-            station_info = dict()
-            station_info['Name'] = row['Name']
-            station_info['Street'] = row['Street']
-            station_info['District'] = row['District']
-            stations_list.append(station_info)
+        stations_list = list(reader)
     return stations_list
 
 
 def bus_stations(request):
-    get_stations_list()
+    stations_list = get_stations_list()
     page_number = int(request.GET.get('page', 1))
     current_page = page_number
     paginator = Paginator(stations_list, 10)
