@@ -1,3 +1,5 @@
+{% load filter %}
+
 <!DOCTYPE html>{% load static %}
 <html>
   <head>
@@ -21,36 +23,23 @@
         <table class="u-full-width">
       <thead>
         <tr>
-          {% for word in header %}
-          <th>{{word}}</th>
-          {% endfor %}
+          {% for word in inflation_data.fieldnames %}
+            <th class="{% if forloop.last %} grey darken-1 {% endif %}">{{ word }}</th>
+            {% endfor %}
         </tr>
       </thead>
       <tbody>
+      {% for row in inflation_data %}
       <tr>
-      {% for year in data %}
+            {% for key, value in row.items %}
+                <td class= "{% if forloop.last %} grey darken-1 {% endif %}
+                    {% if not forloop.first and not forloop.last %} {{value|detectcolor}} {% endif %}">{{ value }} </td>
 
-          <td>{{ year.Год }}</td>
-          <td>{{ year.Янв }}</td>
-          <td>{{ year.Фев }}</td>
-          <td>{{ year.Мар }}</td>
-          <td>{{ year.Апр }}</td>
-          <td>{{ year.Май }}</td>
-          <td>{{ year.Июн }}</td>
-          <td>{{ year.Июл }}</td>
-          <td>{{ year.Авг }}</td>
-          <td>{{ year.Сен }}</td>
-          <td>{{ year.Окт }}</td>
-          <td>{{ year.Ноя }}</td>
-          <td>{{ year.Дек }}</td>
-          <td><p style="background-color:gray">{{ year.Всего }}</p></td>
-          {% for item in year. %}
-            {% if item > 1 %}
-                <td><p> style="background-color:red</p></td>
-         {% endif %}
-        {% endfor %}
+          {% endfor %}
+          {% endfor %}
         </tr>
-      {% endfor %}
+
+
       </tbody>
     </table>
 
