@@ -8,7 +8,10 @@
             <h1>Телефон</h1>
         </div>
         <div class="content">
-
+        <h1> {{ phone.name }} </h1>
+            <h1> Цена:  {{ phone.price }}  рублей </h1>
+          <h1> Дата выпуска:  {{ phone.release_date }} </h1>
+             <img src='{{ phone.image }}'>
         </div>
     </div>
 {% endblock %}
