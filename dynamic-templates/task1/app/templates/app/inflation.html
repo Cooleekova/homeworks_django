@@ -33,7 +33,8 @@
       <tr>
             {% for key, value in row.items %}
                 <td class= "{% if forloop.last %} grey darken-1 {% endif %}
-                    {% if not forloop.first and not forloop.last %} {{value|detectcolor}} {% endif %}">{{ value }} </td>
+                    {% if not forloop.first and not forloop.last %} {{value|detectcolor}} {% endif %}">
+                {{ value|default:"-" }} </td>
 
           {% endfor %}
           {% endfor %}
