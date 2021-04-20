@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 from phones.models import Phone
 
 
@@ -23,7 +25,7 @@ def show_catalog(request):
         if sort == 'max_price':
             sorted_by_max_price = sorted(catalog, key=lambda phone: phone.price, reverse=True)
             context = {'catalog': sorted_by_max_price}
-    if not sort:
+    else:
         context = {'catalog': catalog}
     return render(request, template, context)
 
@@ -31,7 +33,11 @@ def show_catalog(request):
 def show_product(request, slug):
     template = 'product.html'
     context = {}
-    needed_phone = Phone.objects.get(slug=slug)
-    context['phone'] = needed_phone
-    return render(request, template, context)
+    try:
+        needed_phone = Phone.objects.get(slug=slug)
+        context['phone'] = needed_phone
+        return render(request, template, context)
+    except ObjectDoesNotExist:
+        return HttpResponse('<h1>Page was not found</h1>')
+
 
