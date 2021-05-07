@@ -5,8 +5,8 @@ class Project(models.Model):
     """Объект на котором проводят измерения."""
 
     name = models.TextField(verbose_name='Объект')
-    # latitude = models.FloatField()
-    # longitude = models.FloatField()
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     created_at = models.DateTimeField(
         auto_now_add=True
     )
