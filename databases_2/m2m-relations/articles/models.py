@@ -14,3 +14,46 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    scopes = models.ManyToManyField(
+        'Scope',
+        # verbose_name='Разделы',
+        related_name='articles',
+        through='ArticleScope'
+    )
+
+
+class Scope(models.Model):
+
+    name = models.TextField(
+        max_length=20,
+        verbose_name='Название',
+    )
+
+    class Meta:
+        verbose_name = 'Раздел'
+        verbose_name_plural = 'Разделы'
+
+    def __str__(self):
+        return self.name
+
+
+class ArticleScope(models.Model):
+
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+        # related_name='article_scope'
+    )
+
+    scope = models.ForeignKey(
+        Scope,
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+        # related_name='scope_article'
+    )
+
+    is_main = models.BooleanField(verbose_name='Основной раздел', default=False)
