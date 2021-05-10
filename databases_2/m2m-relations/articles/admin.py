@@ -4,23 +4,32 @@ from django.forms import BaseInlineFormSet
 from .models import Article, Scope, ArticleScope
 
 
-# class RelationshipInlineFormset(BaseInlineFormSet):
-#     def clean(self):
-#         for form in self.forms:
-#             # В form.cleaned_data будет словарь с данными
-#             # каждой отдельной формы, которые вы можете проверить
-#             form.cleaned_data.get
-#             # вызовом исключения ValidationError можно указать админке о наличие ошибки
-#             # таким образом объект не будет сохранен,
-#             # а пользователю выведется соответствующее сообщение об ошибке
-#             raise ValidationError('Тут всегда ошибка')
-#         return super().clean()  # вызываем базовый код переопределяемого метода
+class RelationshipInlineFormset(BaseInlineFormSet):
+    # переопределяем метод clean()
+    def clean(self):
+        # создаём переменную-счётчик
+        main_scope_count = 0
+        for form in self.forms:
+            # проверяем значения is_main, если раздел помечен как главный,
+            # увеличиваем счётчик на 1, если раздел не главный, счётчик не меняется
+            check = form.cleaned_data.get('is_main')
+            if check is True:
+                main_scope_count += 1
+        # если основных разделов выбрано больше, чем один,
+        # то счётчик будет больше единицы и вызовется ошибка
+        if main_scope_count > 1:
+            raise ValidationError('Возможен только один основной раздел')
+        # если ни один из разделов не выбран как основной,
+        # то счётчик пустой и вызывается ошибка
+        if main_scope_count == 0:
+            raise ValidationError('Требуется выбрать основной раздел')
+        return super().clean()
 
 
 class ArticleScopeInline(admin.TabularInline):
     model = ArticleScope
     extra = 1
-    # formset = RelationshipInlineFormset
+    formset = RelationshipInlineFormset
 
 
 @admin.register(Article)

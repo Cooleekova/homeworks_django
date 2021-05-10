@@ -17,7 +17,7 @@ class Article(models.Model):
 
     scopes = models.ManyToManyField(
         'Scope',
-        # verbose_name='Разделы',
+        verbose_name='Разделы',
         related_name='articles',
         through='ArticleScope'
     )
@@ -40,12 +40,15 @@ class Scope(models.Model):
 
 class ArticleScope(models.Model):
 
+    class Meta:
+        verbose_name = 'Раздел'
+        verbose_name_plural = 'Разделы'
+
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
         blank=False,
         null=False,
-        # related_name='article_scope'
     )
 
     scope = models.ForeignKey(
@@ -53,7 +56,7 @@ class ArticleScope(models.Model):
         on_delete=models.CASCADE,
         blank=False,
         null=False,
-        # related_name='scope_article'
+        verbose_name='Раздел',
     )
 
     is_main = models.BooleanField(verbose_name='Основной раздел', default=False)
