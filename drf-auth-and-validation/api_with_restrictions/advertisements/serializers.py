@@ -39,7 +39,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         # Необходимо валидировать, что у пользователя не больше 10 открытых объявлений.
         """Метод для валидации. Вызывается при создании и обновлении."""
         creator = self.context["request"].user
-        order_quantity = len(list(Advertisement.objects.filter(creator=creator, status="OPEN")))
+        order_quantity = Advertisement.objects.filter(creator=creator, status="OPEN").count()
         if self.context["request"].method == "POST" and order_quantity >= 10:
             raise serializers.ValidationError(f'У пользователя превышено количество открытых заказов')
         else:
